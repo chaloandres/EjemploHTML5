@@ -1,0 +1,78 @@
+<!DOCTYPE html> 
+<html lang="es"> <!-- nesesario para que sea html5 -->
+	<head>
+		<meta charset="utf-8"/> 
+		<title>Ejemplo html5</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="http://localhost:8081/socket.io/socket.io.js"></script>
+		<script>
+        var websocket;
+        $(document).on("ready", iniciar);
+        function iniciar()
+        {
+                // conectar al websocket de localhost en puerto 8081
+                websocket = io.connect("http://localhost:8081");
+                // al recibit el evento nombreDesdeServidor llamar a la funcion recibirMensaje
+                websocket.on("nombreDesdeServidor", recibirMensaje);
+                // al iniciar document ready añadir evento al submit del formulario
+                $("#formulario").on("submit",enviarMensaje);
+        }
+
+        function enviarMensaje()
+        {
+                websocket.emit("nuevoNombre", $("#nombre").val());
+                $("#nombre").fadeOut();
+                return false;
+        }
+
+        function recibirMensaje(datosServidor)
+        {
+                $("#dialogo label").text(datosServidor);
+        }
+        </script>
+		<link rel="stylesheet" href="estilo.css" type="text/css" />
+	<head>
+	<body>
+		<header>El Blog Super Duper</header>
+		<hgroup>Una mirada a html5</hgroup>
+		<section>
+			<!-- POST #1 -->
+			<article class="texto_articulo">
+				Post#1: Esta viene siendo la seccion del texto del post que estariamos realizando en un blog, una de las bondades de html5 esque podemos segmentar esto con etiquetas especial como vienen siendo article.
+			</article>
+			<article>
+				<video controls src="videos/sintel.ogv">Tu navegador no soporta HTML5</video>
+			</article>
+			<aside>(botones sociales)</aside>
+			<article>(CHAT)</article>
+			<!-- FIN POST #1 -->
+
+			<!-- POST #2 -->
+			<article class="texto_articulo">
+				Post#2: Esta es la etiqueta article nuevamente utilizada con el segundo post del blog.
+			</article>
+			<aside>(botones sociales)</aside>
+			<article>(CHAT)</article>
+			<!-- FIN POST #2 -->
+		</section>
+		<section>
+			<form id="formulario">
+			<div class="seccion_websocket">
+			<!-- WEB SOCKET -->
+			<label>Saluda al servidor mediante WebSocket</label>
+			<input type="text" id="nombre" placeholder="Ingresa tu nombre" required></br>
+			<div id="dialogo" class="contenido_websocket"> 
+				<label>Esperando Saludo..</label>
+			<div>
+			</div>
+			</form>
+		</section>
+		<footer>
+			<img id="imagen" src="html5.png"></img>
+			<p>Plantilla desarrollada en html5 po @gnzvergara</p> 
+			<p>andresvergara.cl<p/>
+			<p>Estilo Diseñado por AndresVergara compatible con: Chrome</p>
+		</footer>
+	</body>
+</html>
+<!-- Ejemplo Html5 Creado por Andres Vergara . CL -->
